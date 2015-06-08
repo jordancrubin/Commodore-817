@@ -13,7 +13,7 @@
 ;; ar.c64.org/wiki/turbo232_swiftlink_registers.txt     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-glink232  	       =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
+glink232  	   =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
 dataregister  	   =   glink232
 statusregister     =   glink232+1
 commandregister    =   glink232+2
@@ -21,13 +21,13 @@ controlregister    =   glink232+3
 recvhead           =   $A7      ;pointer to next byte to be removed from receive buffer
 recvtail           =   $A8      ;pointer to location to store next byte received
 recvbuffer         =   $F7      ;receive-buffer vector   $c160
-xmithead   	       =   $A9      ;pointer to next byte to be removed from transmit buffer
+xmithead   	   =   $A9      ;pointer to next byte to be removed from transmit buffer
 xmittail           =   $AA      ;pointer to location to store next byte in transmit buffer
 xmitbuffer         =   $F9      ;transmit buffer         $c156
 xmitbuffersize 	   =   $AB      ;number of bytes currently in xmitbuffer
 recvbuffersize     =   $B4      ;number of bytes currently in recvbuffer
-xmiton   	       =   $B6      ;storage location for model of command register for transmit on
-xmitoff  	       =   $BD      ;storage location for model of command register for transmit off
+xmiton   	   =   $B6      ;storage location for model of command register for transmit on
+xmitoff  	   =   $BD      ;storage location for model of command register for transmit off
 nmivector          =   $0318    ;Commodore Non-Maskable Interrupt vector
 oldnmivector       =   $03FE    ;location to store our old NMI vector
 
@@ -75,7 +75,7 @@ calloadaddr        =   $CE00
 	sta   xmittail
 	sta   xmitbuffersize
 	sta   recvbuffersize
-    sta   isoutput
+	sta   isoutput
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -124,7 +124,7 @@ calloadaddr        =   $CE00
       
 	lda   #%00001001    ; was 00001001
 	sta   commandregister
-    sta   xmitoff 
+	sta   xmitoff 
     
     
     
@@ -247,8 +247,8 @@ NEWNMI:
 IS_RECEIVE_BYTE:                  
 	and   #%00001000            ; Mask all but bit #3
 	beq   SEND_TO_DATAREGISTER  ; If 0 branch to SEND_TO_DATAREGISTER
-                                ; If you are still here, it is not zero
-                                ; start receive action
+                                    ; If you are still here, it is not zero
+                                    ; start receive action
 	lda   dataregister          ; get received byte from dataregister
 	ldy   recvtail              ; load index memory value of end of receive buffer to Y
 	sta   (recvbuffer),y        ; and store it
@@ -280,8 +280,8 @@ IS_XMIT_NEEDED:
 IS_XMITBYTE_READY:
 	lda   statusregister    ; We have to reload the status register
 	and   #%00010000        ; Mask all but bit #4
-                            ; if 0 its busy
-                            ; if 1 its available continue on
+                                ; if 0 its busy
+                                ; if 1 its available continue on
 	beq   LEAVE_NMI 
 
 
@@ -302,7 +302,7 @@ SEND_TO_DATAREGISTER:
 	ldy   xmithead
 	lda   (xmitbuffer),y     ;get character at head of buffer
 	sta   dataregister       ;place in ACIA for transmit
-                             ;point to next character in buffer
+                                 ;point to next character in buffer
 	inc   xmithead           ;and store new index
 	dec   xmitbuffersize     ;subtract one from count of bytes in xmit buffer
 	lda   xmitbuffersize
@@ -434,7 +434,7 @@ ISITEND:         ; do we have BL
 CALSEARCHEND:
 	cmp #$31
 	beq CALFOUND
-    jmp CALNOTFOUND
+	jmp CALNOTFOUND
 
 CALFOUND:
 	ldx #$00
@@ -482,8 +482,8 @@ error:
 READDATAPREP:
 	lda #$07
 	sta $FB
-    ldx #$00
-    stx $FC
+	ldx #$00
+	stx $FC
 	ldx #$00
 
 DOWNLOADLABEL:
@@ -590,12 +590,12 @@ HARDCOPYDISPLAY:
 PRINTYESORNO:
 	jsr $FFE4              ; GETKEYIN      
 	beq  PRINTYESORNO      ; No key, go back to PROMPT     
-    jsr $ffd2
-    cmp #$4E               ;N
-    beq PRINTNO
-    cmp #$59               ;Y
-    beq PRINTIT
-    jmp PRINTYESORNO
+	jsr $ffd2
+	cmp #$4E               ;N
+    	beq PRINTNO
+    	cmp #$59               ;Y
+    	beq PRINTIT
+    	jmp PRINTYESORNO
 
 PRINTNO:
 	jmp LOADSTARTUPCHK
@@ -636,8 +636,8 @@ DRAWBANNER:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 WRITEDATA:
-    lda #$00    ; HIGH BYTE , ALWAYS 00
-    ldx $FB     ; LOW BYTE STORED IN FB
+    	lda #$00    ; HIGH BYTE , ALWAYS 00
+    	ldx $FB     ; LOW BYTE STORED IN FB
 	jsr $BDCD   ; CONVERT TO DECIMAL
 
 ;;;;;;;;;;;;;;;;;TAB AND VALUE CODE HERE FOR LEFT ROW - 29
