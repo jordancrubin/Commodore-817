@@ -85,8 +85,8 @@ EXIT:
 	rts
 
 FILLTEXTPREP:
-	lda #$01		            ; white
-	sta $0286      		      ; store in color register 
+	lda #$01		; white
+	sta $0286      		; store in color register 
 	ldx #$01
 	ldy #$05                ; Y coordunate for cursor
 	clc                     ; carry
@@ -121,8 +121,8 @@ FILLTEXT3:
     	bne FILLTEXT3
 
 KEYTOCONTINUE:
-	lda #$02		            ; white
-	sta $0286      		      ; store in color register 
+	lda #$02		; white
+	sta $0286      		; store in color register 
 	ldx #$15
 	ldy #$06                ; Y coordunate for cursor
 	clc                     ; carry
