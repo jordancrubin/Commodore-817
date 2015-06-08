@@ -10,7 +10,7 @@
 ;; greatly from a cruncher to compress the wasted space ;;                                                     
 ;;                                                      ;;
 ;; Requires:                                            ;;          
-;; 				main.asm                                ;;          
+;; 		main.asm                                ;;          
 ;;              help.asm                                ;;          
 ;;              startupchk.asm                          ;;          
 ;;              tcalchk.asm                             ;;                                                                    
