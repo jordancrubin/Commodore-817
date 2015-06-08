@@ -7,7 +7,7 @@
 ;;                       help.asm                       ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-*=$C000             ; Store routine at 49152
+*=$C000                 ; Store routine at 49152
 
 	lda #$00         
 	sta $d020       ; black border
