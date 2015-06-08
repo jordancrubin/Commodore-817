@@ -3,6 +3,9 @@
 ;;      Using the CAT command protocol                  ;;
 ;;      Jordan Rubin 2015                               ;;
 ;;      technocoma.blogspot.com                         ;;
+;;      Written for compilation with 64TASS             ;;
+;; All resulting PRG files shold be UPPERCASE except    ;;
+;; for commodore-817.asm                                ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                     tcalchk.asm                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
