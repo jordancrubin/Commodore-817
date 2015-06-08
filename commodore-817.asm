@@ -114,11 +114,11 @@ FILLTEXT2:
 	ldx #$00
 
 FILLTEXT3:
-     lda LOGO4,x  
-     jsr $FFD2
-     inx
-     cpx #$64
-     bne FILLTEXT3
+    	lda LOGO4,x  
+    	jsr $FFD2
+    	inx
+    	cpx #$64
+    	bne FILLTEXT3
 
 KEYTOCONTINUE:
 	lda #$02		            ; white
@@ -130,12 +130,12 @@ KEYTOCONTINUE:
 	ldx #$00
 
 FILLTEXT4:
-     lda LOGO5,x  
-     jsr $FFD2
-     inx
-     cpx #$39
-     bne FILLTEXT4
-	 rts
+	lda LOGO5,x  
+	jsr $FFD2
+	inx
+	cpx #$39
+	bne FILLTEXT4
+	rts
 
 SIDEBARS:
 	ldy #$00                 ; Y coordunate for cursor
@@ -168,7 +168,6 @@ WINDOWLINEBOTTOM:
 	cpx #$2A              ; does X = hex 28
 	bne WINDOWLINEBOTTOM  ; branch to ULINE of not 28
 	rts
-
 
 LOGO:
 .text "***COMMODORE-817 CONTROLLER***",$0D,"       Jordan Rubin [KJ4TLB] 2015",$0D,"     http://technocoma.blogspot.com"
