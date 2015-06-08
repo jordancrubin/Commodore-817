@@ -4,6 +4,9 @@
 ;; Using the CAT command protocol and ACIA              ;;
 ;;      Jordan Rubin 2015                               ;;
 ;;      http://technocoma.blogspot.com                  ;;
+;;      Written for compilation with 64TASS             ;;
+;; All resulting PRG files shold be UPPERCASE except    ;;
+;; for commodore-817.asm                                ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                   commodore-817.asm                  ;;
 ;; This is the main startup file and autostarts from    ;;
