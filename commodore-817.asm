@@ -5,7 +5,7 @@
 ;;      Jordan Rubin 2015                               ;;
 ;;      http://technocoma.blogspot.com                  ;;
 ;;      Written for compilation with 64TASS             ;;
-;; All resulting PRG files shold be UPPERCASE except    ;;
+;; All resulting PRG files should be UPPERCASE except    ;;
 ;; for commodore-817.asm                                ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                   commodore-817.asm                  ;;
