@@ -13,7 +13,7 @@
 ;; ar.c64.org/wiki/turbo232_swiftlink_registers.txt     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-glink232  	       =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
+glink232  	   =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
 dataregister  	   =   glink232
 statusregister     =   glink232+1
 commandregister    =   glink232+2
@@ -21,13 +21,13 @@ controlregister    =   glink232+3
 recvhead           =   $A7      ;pointer to next byte to be removed from receive buffer
 recvtail           =   $A8      ;pointer to location to store next byte received
 recvbuffer         =   $F7      ;receive-buffer vector   $c160
-xmithead   	       =   $A9      ;pointer to next byte to be removed from transmit buffer
+xmithead   	   =   $A9      ;pointer to next byte to be removed from transmit buffer
 xmittail           =   $AA      ;pointer to location to store next byte in transmit buffer
 xmitbuffer         =   $F9      ;transmit buffer         $c156
 xmitbuffersize 	   =   $AB      ;number of bytes currently in xmitbuffer
 recvbuffersize     =   $B4      ;number of bytes currently in recvbuffer
-xmiton   	       =   $B6      ;storage location for model of command register for transmit on
-xmitoff  	       =   $BD      ;storage location for model of command register for transmit off
+xmiton   	   =   $B6      ;storage location for model of command register for transmit on
+xmitoff  	   =   $BD      ;storage location for model of command register for transmit off
 nmivector          =   $0318    ;Commodore Non-Maskable Interrupt vector
 oldnmivector       =   $03FE    ;location to store our old NMI vector
 
@@ -73,7 +73,7 @@ updateline         =   #$0D
 	sta   xmittail
 	sta   xmitbuffersize
 	sta   recvbuffersize
-    sta   isoutput
+    	sta   isoutput
 
 
 
@@ -123,7 +123,7 @@ updateline         =   #$0D
       
 	lda   #%00001001
 	sta   commandregister
-    sta   xmitoff 
+    	sta   xmitoff 
     
     
     
@@ -387,7 +387,7 @@ SPRITESETUP:   ;$F2 red ;$F5 green $F1 white $F8 orange $F9 brown
 	clc
 
 SPRITELOCATE:
-	lda #$3F       ; updown
+	lda #$3F         ; updown
 	sta SP0Y,x
 	lda OFFSET       ; leftright    
 	sta SP0X,x
@@ -452,12 +452,12 @@ CHECKCONNECT2:
 	cpx #$1F
 	bne CHECKCONNECT2
 	ldx #$00
-    jsr GETVERSION
-    beq CHECKCONNECT 
-    cmp #$FF
-    beq CHECKCONNECT
+    	jsr GETVERSION
+	beq CHECKCONNECT 
+    	cmp #$FF
+    	beq CHECKCONNECT
 	ldx #$00
-    jsr PRINTOK
+    	jsr PRINTOK
 
    
     
@@ -513,7 +513,7 @@ ISITEND:         ; do we have BL
 CALSEARCHEND:
 	cmp #$31
 	beq CALFOUND
-    jmp CALNOTFOUND
+    	jmp CALNOTFOUND
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -523,7 +523,7 @@ CALSEARCHEND:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 CALFOUND: 
-    ldx #$00
+    	ldx #$00
 
 CALFOUND1:    
 	lda CALFOUNDTEXT,x
@@ -539,7 +539,7 @@ CALFOUND1:
 	jsr WAIT
 	jsr WAIT
 	jsr WAIT
-    jmp START
+    	jmp START
 
 
 
@@ -550,7 +550,7 @@ CALFOUND1:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 CALNOTFOUND:
-    ldx #$00
+    	ldx #$00
     
 CALNOTFOUND1:    
 	lda CALNOTFOUNDTEXT,x
@@ -569,12 +569,12 @@ CALNOTFOUND1:
 YESORNO:
 	jsr $FFE4        ; GETKEYIN      
 	beq  YESORNO      ; No key, go back to PROMPT     
-    jsr $ffd2
-    cmp #$4E          ;N
-    beq NO
-    cmp #$59          ;Y
-    beq SAVECAL
-    jmp YESORNO
+    	jsr $ffd2
+    	cmp #$4E          ;N
+    	beq NO
+    	cmp #$59          ;Y
+    	beq SAVECAL
+    	jmp YESORNO
 
 NO:
 	jmp START
@@ -598,8 +598,8 @@ DUMPDISPLAY:
 	sta recvtail
 	ldx #$07        ; 07
 	stx $FB
-    ldx #$17
-    stx $FC
+    	ldx #$17
+    	stx $FC
 
 GETCALDATA:
 	ldy #$00
@@ -619,13 +619,13 @@ GETCALDATA:
 	ldx $FB
 	cpx #$53     ; 53
 	bne GETCALDATA
-    ldx #$00
+    	ldx #$00
 	ldx updateline
 	ldy #$18
 	clc
 	jsr $fff0
 	ldx #$00
-    jsr PRINTOK
+    	jsr PRINTOK
 	ldx #$00
 
 SAVECALDISP:
@@ -689,12 +689,12 @@ HARDCOPYDISPLAY:
 PRINTYESORNO:
 	jsr $FFE4              ; GETKEYIN      
 	beq  PRINTYESORNO      ; No key, go back to PROMPT     
-    jsr $ffd2
-    cmp #$4E          ;N
-    beq PRINTNO
-    cmp #$59          ;Y
-    beq PRINTIT
-    jmp PRINTYESORNO
+    	jsr $ffd2
+    	cmp #$4E          ;N
+    	beq PRINTNO
+    	cmp #$59          ;Y
+    	beq PRINTIT
+    	jmp PRINTYESORNO
 
 PRINTNO:
 	jmp START
@@ -734,8 +734,8 @@ DRAWBANNER:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 WRITEDATA:
-    lda #$00    ; HIGH BYTE , ALWAYS 00
-    ldx $FB     ; LOW BYTE STORED IN FB
+    	lda #$00    ; HIGH BYTE , ALWAYS 00
+    	ldx $FB     ; LOW BYTE STORED IN FB
 	jsr $BDCD   ; CONVERT TO DECIMAL
 
 ;;;;;;;;;;;;;;;;;TAB AND VALUE CODE HERE FOR LEFT ROW - 29
@@ -831,8 +831,8 @@ REDO:
 START:     ;;;;;;;;;;;;;;;;;;reload all memory after ACIACODEFINISH with file main
 
 TOPWINDOWDRAW:
-    lda #$93
-    jsr $ffd2         ; clear screen   
+    	lda #$93
+    	jsr $ffd2         ; clear screen   
 	lda #$f0       ; top left curved end    was d5
 	jsr $ffd2
 	ldx #$00
@@ -846,8 +846,8 @@ TOPWINDOWDRAW:
 	jsr WINDOWLINEBOTTOM
 	lda #$fd             ; bottom right was cb
 	jsr $ffd2
-    ldx #$00
-    ldy #$00
+    	ldx #$00
+    	ldy #$00
 	jmp SECONDWINDOW
 
 SIDEBARS:
@@ -864,10 +864,10 @@ SIDEBARS:
 	inx
 	cpx #$04
 	bne SIDEBARS
-    lda #$53                ;S
-    sta $047A
-    lda #$3A                ;:
-    sta $047B
+    	lda #$53                ;S
+    	sta $047A
+    	lda #$3A                ;:
+    	sta $047B
 	rts
 
 WINDOWLINETOP:
@@ -887,7 +887,7 @@ WINDOWLINEBOTTOM:
 	rts
 
 SECONDWINDOW:
-    ldx #$05
+    	ldx #$05
 	ldy #$00                 ; Y coordunate for cursor
 	clc                      ; carry
 	jsr $fff0                ; move cursor  
@@ -899,7 +899,6 @@ SECONDWINDOW:
 	jsr $ffd2
 	ldx #$06
 	jsr SECONDSIDEBARS
-
 	lda #$ed             ; bottom left
 	jsr $ffd2
 	ldx #$04
@@ -922,12 +921,12 @@ SECONDSIDEBARS:
 	inx
 	cpx #$16
 	bne SECONDSIDEBARS
-    lda #$53                ;S
-    sta $047A
-    lda #$3A                ;:
-    sta $047B
-    lda #$D0                ;P
-    sta $0490
+    	lda #$53                ;S
+    	sta $047A
+    	lda #$3A                ;:
+    	sta $047B
+    	lda #$D0                ;P
+    	sta $0490
 	lda #$D7                ;W
 	sta $0491
 	lda #$D2                ;R
@@ -1121,7 +1120,7 @@ SECONDSIDEBARS:
 	lda #$54                ;T
 	sta $05BA
 	lda #$2F                ;/
-    sta $05BB
+    	sta $05BB
 	lda #$52                ;R
 	sta $05BC
 	lda #$53                ;S
@@ -1166,7 +1165,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DA48               ; Color for F
-    stx $DA49
+    	stx $DA49
 
 	lda #$C6                ;F   inv
 	sta $0648
@@ -1182,7 +1181,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DA98               ; Color for F
-    stx $DA99
+    	stx $DA99
 
 
 	lda #$C6                ;F   inv
@@ -1205,7 +1204,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DAE8               ; Color for F
-    stx $DAE9
+    	stx $DAE9
 
 
 	lda #$C6                ;F   inv
@@ -1224,7 +1223,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DB38               ; Color for F
-    stx $DB39
+    	stx $DB39
 
 
 	lda #$C6                ;F   inv
@@ -1253,7 +1252,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DA32               ; Color for F
-    stx $DA33
+    	stx $DA33
 
 
 	lda #$C6                ;F   inv
@@ -1284,7 +1283,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DA82               ; Color for F
-    stx $DA83
+    	stx $DA83
 
 	lda #$C6                ;F   inv
 	sta $0682
@@ -1312,7 +1311,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DAD2               ; Color for F
-    stx $DAD3
+    	stx $DAD3
 
 	lda #$C6                ;F   inv
 	sta $06D2	
@@ -1340,7 +1339,7 @@ SECONDSIDEBARS:
 
 	ldx #$02	
 	stx $DB22               ; Color for F
-    stx $DB23
+    	stx $DB23
 
 	lda #$C6                ;F   inv
 	sta $0722
@@ -1413,14 +1412,14 @@ GETVERSION:     ;
 	cpx #$05
 	bne GETVERSION
 	ldy #$01
-    jsr PAUSE         ;need this becuase process it too fast
-    ldy #$00
-    lda (recvbuffer),y ; load in 1st byte from receive buffer
-    sta radiobyte
+    	jsr PAUSE         ;need this becuase process it too fast
+    	ldy #$00
+    	lda (recvbuffer),y ; load in 1st byte from receive buffer
+    	sta radiobyte
 	iny
 	lda (recvbuffer),y
 	sta radiobyte,y
-    rts
+    	rts
 
 
 
