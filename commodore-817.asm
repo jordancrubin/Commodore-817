@@ -6,6 +6,8 @@
 ;;      http://technocoma.blogspot.com                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                   commodore-817.asm                  ;;
+;; This is the main startup file and autostarts from    ;;
+;; basic when it finishes loading.                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Because of how its written, this file would benefit  ;;
 ;; greatly from a cruncher to compress the wasted space ;;                                                     
