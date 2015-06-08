@@ -151,7 +151,7 @@ calloadaddr        =   $CE00
 
 	sei                   ;Disable interrupts just in case
 	lda   nmivector	      ;get low byte of the current NMI vector
-	sta   oldnmivector	  ;store it in oldnmivector
+	sta   oldnmivector    ;store it in oldnmivector
 	lda   nmivector+1     ;get the high byte of the current NMI vector
 	sta   oldnmivector+1  ;store it in oldnmivector + 1
 	lda   #<NEWNMI        ;get low byte of our new NMI code
@@ -420,7 +420,7 @@ READDIR:
 	lda #$31      ; number 1
 	jmp CALSEARCHEND
 
-ISITEND:         ; do we have BL
+ISITEND:               ; do we have BL
 	lda $0800,x
 	inx
 	cmp #$4c      ;L
@@ -464,7 +464,7 @@ skip:
         ldy #>calloadaddr
         lda #$00      ; $00 means: load to memory (not verify)
         jsr $FFD5     ; call LOAD
-        bcs error    ; if carry set, a load error has happened	
+        bcs error     ; if carry set, a load error has happened	
         jmp READDATAPREP
 error:
         ; Accumulator contains BASIC error code
@@ -515,7 +515,7 @@ READDATALOOP:
 	inc $FB                   ; does 2 bytes at a time, incriment twice
 	jsr UPDATE
 	ldx $FB
-	cpx #$53     ; 53
+	cpx #$53    
 	bne READDATALOOP	
 	lda #$20
 	sta $0516
