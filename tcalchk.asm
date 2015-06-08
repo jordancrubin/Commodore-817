@@ -457,7 +457,7 @@ CALLOAD:
         bne skip
         ldx #$08      ; default to device 8
 skip:   
-	    ldy #$00      ; $00 means: load to new address
+	ldy #$00      ; $00 means: load to new address
         jsr $FFBA     ; call SETLFS
 
         ldx #<calloadaddr
