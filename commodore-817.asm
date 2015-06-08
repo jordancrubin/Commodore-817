@@ -71,15 +71,15 @@ WAITFORKEY:
 
 LOADPROGRAM:	
 	lda #fname_end-fname
-    ldx #<fname
-    ldy #>fname
-    jmp LOADFILE
+	ldx #<fname
+	ldy #>fname
+	jmp LOADFILE
 
 LOADHELP:
 	lda #hname_end-hname
-    ldx #<hname
-    ldy #>hname
-    jmp LOADFILE
+	ldx #<hname
+	ldy #>hname
+	jmp LOADFILE
 
 EXIT:
 	rts
@@ -96,22 +96,22 @@ FILLTEXTPREP:
 FILLTEXT:
 	lda LOGO,x       
 	jsr $FFD2
-    inx
-    cpx #$64
-    bne FILLTEXT
-    ldx #$08
+	inx
+	cpx #$64
+	bne FILLTEXT
+	ldx #$08
 	ldy #$01                ; Y coordunate for cursor
 	clc                     ; carry
 	jsr $fff0               ; move cursor  
 	ldx #$00
 
 FILLTEXT2:
-     lda LOGO2,x  
-     jsr $FFD2
-     inx
-     cpx #$D9
-     bne FILLTEXT2
-	 ldx #$00
+	lda LOGO2,x  
+	jsr $FFD2
+	inx
+	cpx #$D9
+	bne FILLTEXT2
+	ldx #$00
 
 FILLTEXT3:
      lda LOGO4,x  
