@@ -1,14 +1,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;      C64 interface for the FT8XX Yaesu Radio         ;;
-;;      Using the CAT command protocol                  ;;
+;; Works with Glink232 cartrige and compatible devices  ;;
+;; Using the CAT command protocol and ACIA              ;;
 ;;      Jordan Rubin 2015                               ;;
-;;      technocoma.blogspot.com                         ;;
+;;      http://technocoma.blogspot.com                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                   commodore-817.asm                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Because of how its written, this file would benefit  ;;
 ;; greatly from a cruncher to compress the wasted space ;;                                                     
-;;                                                      ;;
+;; No other files need crunching.                       ;;
 ;; Requires:                                            ;;          
 ;; 		main.asm                                ;;          
 ;;              help.asm                                ;;          
