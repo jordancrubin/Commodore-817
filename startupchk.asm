@@ -55,7 +55,7 @@ updateline         =   #$0D
 ;; Program startpoint                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-*=  $C000          ;Start of program at 49152
+*=  $C000              ;Start of program at 49152
 
 	lda #$17 
 	sta $D018      ;changes to upperlower
@@ -150,7 +150,7 @@ updateline         =   #$0D
 
 	sei                   ;Disable interrupts just in case
 	lda   nmivector	      ;get low byte of the current NMI vector
-	sta   oldnmivector	  ;store it in oldnmivector
+	sta   oldnmivector    ;store it in oldnmivector
 	lda   nmivector+1     ;get the high byte of the current NMI vector
 	sta   oldnmivector+1  ;store it in oldnmivector + 1
 	lda   #<NEWNMI        ;get low byte of our new NMI code
@@ -247,8 +247,8 @@ NEWNMI:
 IS_RECEIVE_BYTE:                  
 	and   #%00001000            ; Mask all but bit #3
 	beq   SEND_TO_DATAREGISTER  ; If 0 branch to SEND_TO_DATAREGISTER
-                                ; If you are still here, it is not zero
-                                ; start receive action
+                                    ; If you are still here, it is not zero
+                                    ; start receive action
 	lda   dataregister          ; get received byte from dataregister
 	ldy   recvtail              ; load index memory value of end of receive buffer to Y
 	sta   (recvbuffer),y        ; and store it
@@ -280,8 +280,8 @@ IS_XMIT_NEEDED:
 IS_XMITBYTE_READY:
 	lda   statusregister    ; We have to reload the status register
 	and   #%00010000        ; Mask all but bit #4
-                            ; if 0 its busy
-                            ; if 1 its available continue on
+                                ; if 0 its busy
+                                ; if 1 its available continue on
 	beq   LEAVE_NMI 
 
 
@@ -302,15 +302,14 @@ SEND_TO_DATAREGISTER:
 	ldy   xmithead
 	lda   (xmitbuffer),y     ;get character at head of buffer
 	sta   dataregister       ;place in ACIA for transmit
-                             ;point to next character in buffer
+                                 ;point to next character in buffer
 	inc   xmithead           ;and store new index
 	dec   xmitbuffersize     ;subtract one from count of bytes in xmit buffer
 	lda   xmitbuffersize
 	beq   LEAVE_NMI 
 	lda   xmiton             ;model to leave both interrupts enabled                             
 	bne   NMICOMMAND         ;branch always to store model in command register   
-                             ;;;;;;;;;;;;;;;;;;;;;;FIXAREA, CANT WE JUST STA CMMANDREGISTER 
-                             ;;;;;;;;;;;;;;;;;;;;;; AND BRANCH TO RESTORE_FROM_NMI
+                            
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -499,7 +498,7 @@ READDIR:
 	lda #$31      ; number 1
 	jmp CALSEARCHEND
 
-ISITEND:         ; do we have BL
+ISITEND:              ; do we have BL
 	lda $0800,x
 	inx
 	cmp #$4c      ;L
@@ -567,7 +566,7 @@ CALNOTFOUND1:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 YESORNO:
-	jsr $FFE4        ; GETKEYIN      
+	jsr $FFE4         ; GETKEYIN      
 	beq  YESORNO      ; No key, go back to PROMPT     
     	jsr $ffd2
     	cmp #$4E          ;N
@@ -640,7 +639,7 @@ WRITECAL2DISK:
 	ldx #<fname
 	ldy #>fname
 	jsr $FFBD     ; call SETNAM
-	lda #$00       ;    was 00
+	lda #$00      ;    was 00
 	ldx $BA       ; last used device number
 	bne writeskip
 	ldx #$08      ; default to device 8
@@ -653,8 +652,8 @@ writeskip:
 	sta $C2
 	ldx #<RECEIVE_BUFFER+76
 	ldy #>RECEIVE_BUFFER+76
-	lda #$C1      ; start address located in $C1/$C2
-	jsr $FFD8     ; call SAVE
+	lda #$C1          ; start address located in $C1/$C2
+	jsr $FFD8         ; call SAVE
 	bcs writeerror    ; if carry set, a load error has happened
 	ldx updateline+1
 	ldy #$18
@@ -690,9 +689,9 @@ PRINTYESORNO:
 	jsr $FFE4              ; GETKEYIN      
 	beq  PRINTYESORNO      ; No key, go back to PROMPT     
     	jsr $ffd2
-    	cmp #$4E          ;N
+    	cmp #$4E               ;N
     	beq PRINTNO
-    	cmp #$59          ;Y
+    	cmp #$59               ;Y
     	beq PRINTIT
     	jmp PRINTYESORNO
 
@@ -832,19 +831,19 @@ START:     ;;;;;;;;;;;;;;;;;;reload all memory after ACIACODEFINISH with file ma
 
 TOPWINDOWDRAW:
     	lda #$93
-    	jsr $ffd2         ; clear screen   
-	lda #$f0       ; top left curved end    was d5
+    	jsr $ffd2           ; clear screen   
+	lda #$f0            ; top left curved end    was d5
 	jsr $ffd2
 	ldx #$00
 	jsr WINDOWLINETOP
-	lda #$ee       ; top right curved end  was c9
+	lda #$ee            ; top right curved end  was c9
 	jsr $ffd2
 	ldx #$01
 	jsr SIDEBARS
 	lda #$ed            ; bottom left was ca
 	jsr $ffd2
 	jsr WINDOWLINEBOTTOM
-	lda #$fd             ; bottom right was cb
+	lda #$fd            ; bottom right was cb
 	jsr $ffd2
     	ldx #$00
     	ldy #$00
@@ -858,7 +857,7 @@ SIDEBARS:
 	jsr $ffd2
 	ldy #$27                 ;
 	clc
-	jsr $fff0                  ; move cursor  
+	jsr $fff0                ; move cursor  
 	lda #$dd                 ; vertical bar right side   was c8
 	jsr $ffd2
 	inx
@@ -1405,14 +1404,14 @@ LOADMAINFILE:
 ;; Drops into radiobyte and radiobyte+1                 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GETVERSION:     ;
-	lda GET_VERSION,x ; load the bytes in GET_VERSION  
+	lda GET_VERSION,x  ; load the bytes in GET_VERSION  
 	tay
-	jsr TESTACIA      ; pass it to the acia
+	jsr TESTACIA       ; pass it to the acia
 	inx
 	cpx #$05
 	bne GETVERSION
 	ldy #$01
-    	jsr PAUSE         ;need this becuase process it too fast
+    	jsr PAUSE          ;need this becuase process it too fast
     	ldy #$00
     	lda (recvbuffer),y ; load in 1st byte from receive buffer
     	sta radiobyte
