@@ -309,9 +309,7 @@ SEND_TO_DATAREGISTER:
 	beq   LEAVE_NMI 
 	lda   xmiton             ;model to leave both interrupts enabled                             
 	bne   NMICOMMAND         ;branch always to store model in command register   
-                             ;;;;;;;;;;;;;;;;;;;;;;FIXAREA, CANT WE JUST STA CMMANDREGISTER 
-                             ;;;;;;;;;;;;;;;;;;;;;; AND BRANCH TO RESTORE_FROM_NMI
-
+                           
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;              LEAVE NMI with xmitoff                  ;;
