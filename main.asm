@@ -164,7 +164,7 @@ offsetfrombase     =   $2A
 
 	sei                   ;Disable interrupts just in case
 	lda   nmivector	      ;get low byte of the current NMI vector
-	sta   oldnmivector	  ;store it in oldnmivector
+	sta   oldnmivector    ;store it in oldnmivector
 	lda   nmivector+1     ;get the high byte of the current NMI vector
 	sta   oldnmivector+1  ;store it in oldnmivector + 1
 	lda   #<NEWNMI        ;get low byte of our new NMI code
@@ -260,8 +260,8 @@ NEWNMI:
 IS_RECEIVE_BYTE:                  
 	and   #%00001000            ; Mask all but bit #3
 	beq   SEND_TO_DATAREGISTER  ; If 0 branch to SEND_TO_DATAREGISTER
-                                ; If you are still here, it is not zero
-                                ; start receive action
+                                    ; If you are still here, it is not zero
+                                    ; start receive action
 	lda   dataregister          ; get received byte from dataregister
 	ldy   recvtail              ; load index memory value of end of receive buffer to Y
 	sta   (recvbuffer),y        ; and store it
@@ -293,8 +293,8 @@ IS_XMIT_NEEDED:
 IS_XMITBYTE_READY:
 	lda   statusregister    ; We have to reload the status register
 	and   #%00010000        ; Mask all but bit #4
-                            ; if 0 its busy
-                            ; if 1 its available continue on
+                                ; if 0 its busy
+                                ; if 1 its available continue on
 	beq   LEAVE_NMI 
 
 
@@ -500,7 +500,7 @@ PWRPRINT:
 	ldy #$00
     	lda (recvbuffer),y
 	and #%00001111  
-	cmp #$00  ;is 00, load SM0 
+	cmp #$00  ; is 00, load SM0 
 	beq SM0
 	cmp #$02  ; is 0001  first bar  
 	bcc SM1
@@ -674,16 +674,16 @@ SQUELCHPRINT:
 
 GETCATFREQANDMODE:  
 	jsr CLEARBUFFER
-GETCATFREQANDMODE2:     ;  c139
+GETCATFREQANDMODE2:               ;  c139
 	lda GET_CAT_FREQANDMODE,x ; load the bytes in GET_VERSION  
 	tay
-	jsr TESTACIA      ; pass it to the acia
+	jsr TESTACIA              ; pass it to the acia
 	inx
 	cpx #$05
 	bne GETCATFREQANDMODE2
-    	jsr WAIT         ;need this becuase process it too fast
+    	jsr WAIT                  ;need this becuase process it too fast
 
-freqout:              ; c14c
+freqout:              
 	lda (recvbuffer),y
 	and #%11110000 
 	lsr
@@ -774,7 +774,7 @@ GETMEMORVFO2:
 	jsr WAIT
     	lda (recvbuffer),y ; load in ONLY 1st byte from receive buffer
     	sta radiobyte
-	and #%10000000   ; is it Mem or VFO ; mem 0 vfo 1
+	and #%10000000     ; is it Mem or VFO ; mem 0 vfo 1
 	sta $FC
 	ldx #$00
 
@@ -870,7 +870,7 @@ GETVFOBANDb:
 	lda vfoBstartlow
 	sta memjumplow
 	lda radiobyte
-	and #%11110000    ; needs further conversion asr x 4?
+	and #%11110000     ; needs further conversion asr x 4?
 	lsr
 	lsr
 	lsr
@@ -883,12 +883,12 @@ GETVFOBANDSEARCH:
     	ldy VFOBANDS,x
     	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
-	beq GETVFOBAND     ; try the module over again
+	beq GETVFOBAND            ; try the module over again
     	cpy $FC
     	bne GETVFOBANDSEARCH
-	stx $FB            ; X must be preserved during the JSR
-	jsr UPDATEJUMPTABLEVFO ; update memjumplow and memjumphigh for the band given the VF0
-	ldx $FB            ; Restore X from before
+	stx $FB                   ; X must be preserved during the JSR
+	jsr UPDATEJUMPTABLEVFO    ; update memjumplow and memjumphigh for the band given the VF0
+	ldx $FB                   ; Restore X from before
     	ldy #$00
 
 VFOBANDPRINT:
@@ -907,7 +907,7 @@ UPDATEJUMPTABLEVFO:
 	bne JUMPTABLEVFOLOOP
 	rts              ; if its 160m , $00 no further conversion required
 
-JUMPTABLEVFOLOOP: ;if not $00 we need to add 1A for each number greater than 0
+JUMPTABLEVFOLOOP:        ;if not $00 we need to add 1A for each number greater than 0
 	clc
 	lda memjumplow
 	adc #$1A 
@@ -1533,7 +1533,7 @@ ONOFFSEARCH:
     	ldy ONOFFLABEL,x
     	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
-	beq FORCEUPDATE     ; try the module over again
+	beq FORCEUPDATE           ; try the module over again
     	cpy $FC
     	bne ONOFFSEARCH
 	ldy #$00	
@@ -1750,7 +1750,7 @@ FREQINPUTWAIT:            ; using FB FC FD FE
 	asl
 	asl                 ; multiply by $10
 	asl
-	sta $FB,x             ; store value in FB
+	sta $FB,x           ; store value in FB
 	iny
 	sty $2B
 	cpy #$03
@@ -1785,7 +1785,7 @@ FREQINPUTWAIT2:
 	iny
 	sty $2B
 	stx $2C
-	cpy #$07              ;add second decimal?
+	cpy #$07              ; add second decimal?
 	beq FREQDECIMAL2
 
 
@@ -2075,7 +2075,7 @@ AGCTOGGLE:
 	cmp #%00000011   ; is it 3, jumpto agczero
 	beq agczero 
 	inc $FD          ; not 3, increment value in FD
-                     ; need to mask $FD value onto radiobyte
+                         ; need to mask $FD value onto radiobyte
                      
 continueagc:                     
 	lda radiobyte
