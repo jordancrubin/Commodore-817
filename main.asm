@@ -12,7 +12,7 @@
 ;; ar.c64.org/wiki/turbo232_swiftlink_registers.txt     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-glink232  	       =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
+glink232  	   =   $DE00    ;Glink232 cart, ACIA, this must match on the DIP switch of the GLINK232
 dataregister  	   =   glink232
 statusregister     =   glink232+1
 commandregister    =   glink232+2
@@ -20,13 +20,13 @@ controlregister    =   glink232+3
 recvhead           =   $A7      ;pointer to next byte to be removed from receive buffer
 recvtail           =   $A8      ;pointer to location to store next byte received
 recvbuffer         =   $F7      ;receive-buffer vector   $c160
-xmithead   	       =   $A9      ;pointer to next byte to be removed from transmit buffer
+xmithead   	   =   $A9      ;pointer to next byte to be removed from transmit buffer
 xmittail           =   $AA      ;pointer to location to store next byte in transmit buffer
 xmitbuffer         =   $F9      ;transmit buffer         $c156
 xmitbuffersize 	   =   $AB      ;number of bytes currently in xmitbuffer
 recvbuffersize     =   $B4      ;number of bytes currently in recvbuffer
-xmiton   	       =   $B6      ;storage location for model of command register for transmit on
-xmitoff  	       =   $BD      ;storage location for model of command register for transmit off
+xmiton   	   =   $B6      ;storage location for model of command register for transmit on
+xmitoff  	   =   $BD      ;storage location for model of command register for transmit off
 nmivector          =   $0318    ;Commodore Non-Maskable Interrupt vector
 oldnmivector       =   $03FE    ;location to store our old NMI vector
 
@@ -67,9 +67,9 @@ offsetfrombase     =   $2A
 ;; Program startpoint                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-*=  $C000      ;Start of program at 49152
+*=  $C000      		;Start of program at 49152
 
-	lda #$17       ; changes to upperlower
+	lda #$17        ; changes to upperlower
 	sta $D018 
 	nop
 	nop
@@ -88,7 +88,7 @@ offsetfrombase     =   $2A
 	sta   xmittail
 	sta   xmitbuffersize
 	sta   recvbuffersize
-    sta   isoutput
+    	sta   isoutput
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -137,7 +137,7 @@ offsetfrombase     =   $2A
       
 	lda   #%00001001
 	sta   commandregister
-    sta   xmitoff 
+    	sta   xmitoff 
     
     
     
@@ -315,15 +315,14 @@ SEND_TO_DATAREGISTER:
 	ldy   xmithead
 	lda   (xmitbuffer),y     ;get character at head of buffer
 	sta   dataregister       ;place in ACIA for transmit
-                             ;point to next character in buffer
+                                 ;point to next character in buffer
 	inc   xmithead           ;and store new index
 	dec   xmitbuffersize     ;subtract one from count of bytes in xmit buffer
 	lda   xmitbuffersize
 	beq   LEAVE_NMI 
 	lda   xmiton             ;model to leave both interrupts enabled                             
 	bne   NMICOMMAND         ;branch always to store model in command register   
-                             ;;;;;;;;;;;;;;;;;;;;;;FIXAREA, CANT WE JUST STA CMMANDREGISTER 
-                             ;;;;;;;;;;;;;;;;;;;;;; AND BRANCH TO RESTORE_FROM_NMI
+                            
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -360,7 +359,7 @@ RESTORE_FROM_NMI:
 	pla                 
 	tax
 	pla                       
-rti
+	rti
 ;	jmp (oldnmivector)  ; keep this for other NMI Code  
 
 
@@ -404,12 +403,12 @@ GETCATTXKEY2:
 	inx
 	cpx #$05
 	bne GETCATTXKEY2
-    jsr WAIT        
-    lda (recvbuffer),y
-    sta radiobyte+1
+    	jsr WAIT        
+    	lda (recvbuffer),y
+    	sta radiobyte+1
 	and #%10000000
-    sta radiobyte
-    lda radiobyte+1
+    	sta radiobyte
+    	lda radiobyte+1
 	and #%00001111
 	sta radiobyte+1
 	ldx #$00
@@ -423,13 +422,13 @@ GETCATTXKEY2:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 TXRXSEARCH:
-    ldy TXRXLABEL,x
-    inx
+    	ldy TXRXLABEL,x
+    	inx
 	cpx #$FF            ; if X hits this thr receive data was garbage
 	beq GETCATTXKEY     ; try the module over again
-    cpy radiobyte
-    bne TXRXSEARCH
-    ldy #$00
+    	cpy radiobyte
+    	bne TXRXSEARCH
+    	ldy #$00
 
 TXRXPRINT:    
 	lda TXRXLABEL,x
@@ -448,9 +447,9 @@ TXRXPRINT:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ISITRXORTX:
-    lda radiobyte
-    cmp #$80
-    beq RXINFOJUMP
+    	lda radiobyte
+    	cmp #$80
+    	beq RXINFOJUMP
 
 
 
@@ -471,7 +470,7 @@ TXINFO2:
 	inx
 	cpx #$05
 	bne TXINFO2
-    jsr WAIT  
+    	jsr WAIT  
 	ldx #$00
 
 
@@ -483,13 +482,13 @@ TXINFO2:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 PWRSEARCH:
-    ldy PWR,x
-    inx
+    	ldy PWR,x
+    	inx
 	cpx #$FF            ; if X hits this thr receive data was garbage
 	beq TXINFO          ; try the module over again
-    cpy radiobyte+1
-    bne PWRSEARCH
-    ldy #$00
+    	cpy radiobyte+1
+    	bne PWRSEARCH
+    	ldy #$00
 
 PWRPRINT:
 	lda PWR,x
@@ -497,16 +496,16 @@ PWRPRINT:
 	inx
 	iny
 	cpy #02
-    bne PWRPRINT	
+    	bne PWRPRINT	
 	ldy #$00
-    lda (recvbuffer),y
+    	lda (recvbuffer),y
 	and #%00001111  
 	cmp #$00  ;is 00, load SM0 
 	beq SM0
 	cmp #$02  ; is 0001  first bar  
 	bcc SM1
-    beq SM1
-    cmp #$04  ; is 0010 second bar 
+    	beq SM1
+    	cmp #$04  ; is 0010 second bar 
 	bcc SM2
 	beq SM2
 	cmp #$06  ; is 0011 third bar
@@ -514,8 +513,8 @@ PWRPRINT:
 	beq SM3
 	cmp #$08  ; is 0100 fourth bar
 	bcc SM4
-    beq SM4
-    cmp #$0A   
+    	beq SM4
+    	cmp #$0A   
 	bcc SM5
 	beq SM5
 	cmp #$0C
@@ -524,13 +523,13 @@ PWRPRINT:
 	cmp #$0D
 	bcc SM7
 	beq SM7
-    cmp #$0F
+    	cmp #$0F
 	bcc SM8
 	beq SM8
-    rts
+    	rts
 
 RXINFOJUMP:
-jmp RXINFO
+	jmp RXINFO
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                 SPRITEMEMER CODE                     ;;
@@ -591,16 +590,16 @@ RXINFO2:
 	inx
 	cpx #$05
 	bne RXINFO2
-    jsr WAIT  
-    lda (recvbuffer),y
+    	jsr WAIT  
+    	lda (recvbuffer),y
 	jsr CLEARPOWER  ; SQUELCH tag en/dis and clear power tag
 	and #%00001111  ; check only 1st 4, S-Meter reading
 	cmp #$00   
 	beq SM0
 	cmp #$02
 	bcc SM1
-    beq SM1
-    cmp #$04
+    	beq SM1
+    	cmp #$04
 	bcc SM2
 	beq SM2
 	cmp #$06
@@ -608,8 +607,8 @@ RXINFO2:
 	beq SM3
 	cmp #$08
 	bcc SM4
-    beq SM4
-    cmp #$0A
+    	beq SM4
+    	cmp #$0A
 	bcc SM5
 	beq SM5
 	cmp #$0C
@@ -618,7 +617,7 @@ RXINFO2:
 	cmp #$0D
 	bcc SM7
 	beq SM7
-    cmp #$0F
+    	cmp #$0F
 	bcc SM8
 	beq SM8
 
@@ -646,7 +645,7 @@ CLEARPOWER:
 	sta radiobyte
 	and #%10000000	
 	sta $FD	
-    ldx #$00
+    	ldx #$00
 
 SQUELCHSEARCH:
 	ldy SQUELCHLABEL,x
@@ -661,7 +660,7 @@ SQUELCHPRINT:
 	inx
 	iny
 	cpy #07
-    bne SQUELCHPRINT		
+    	bne SQUELCHPRINT		
 	lda radiobyte
 	rts
 	
@@ -682,7 +681,7 @@ GETCATFREQANDMODE2:     ;  c139
 	inx
 	cpx #$05
 	bne GETCATFREQANDMODE2
-    jsr WAIT         ;need this becuase process it too fast
+    	jsr WAIT         ;need this becuase process it too fast
 
 freqout:              ; c14c
 	lda (recvbuffer),y
@@ -721,7 +720,7 @@ continue2:
 	lda (recvbuffer),y
 	sta $FB
 	sta currentmode
-    ldx #$00
+    	ldx #$00
 
 modesearch:
 	ldy MODES,x
@@ -738,7 +737,7 @@ modeprint:
 	inx
 	iny
 	cpy #03
-    bne modeprint
+    	bne modeprint
 	rts
 
 decimal:
@@ -773,8 +772,8 @@ GETMEMORVFO2:
 	cpx #$05
 	bne GETMEMORVFO2
 	jsr WAIT
-    lda (recvbuffer),y ; load in ONLY 1st byte from receive buffer
-    sta radiobyte
+    	lda (recvbuffer),y ; load in ONLY 1st byte from receive buffer
+    	sta radiobyte
 	and #%10000000   ; is it Mem or VFO ; mem 0 vfo 1
 	sta $FC
 	ldx #$00
@@ -786,13 +785,13 @@ hometest:
 	beq homeprint
 
 memvfosearch:
-    ldy MEMVFO,x
-    inx
+    	ldy MEMVFO,x
+    	inx
 	cpx #$FF                  ; if X hits this thr receive data was garbage
 	beq GETMEMORVFO           ; try the module over again
-    cpy $FC
-    bne memvfosearch
-    ldy #$00
+    	cpy $FC
+    	bne memvfosearch
+    	ldy #$00
 
 memvfoprint:    
 	lda MEMVFO,x
@@ -804,7 +803,7 @@ memvfoprint:
 	jmp VFOletter
 
 homeprint:
-    lda HOME,x
+    	lda HOME,x
 	sta $042A,x
 	inx
 	cpx #$05
@@ -820,10 +819,10 @@ homeprint:
 VFOletter:
 	lda $FC            ; is it VFO A or B CURRENTMEMnumber is at 04x4F
 	cmp #$80           ;is it vfo
-    beq PRINTVFOLETTER
-    lda #$20
-    sta $042E          ; blank out vfo letter
-    rts
+    	beq PRINTVFOLETTER
+    	lda #$20
+    	sta $042E          ; blank out vfo letter
+    	rts
 
 PRINTVFOLETTER:
 	lda radiobyte 
@@ -848,8 +847,8 @@ GETVFOBAND2:
 	cpx #$05
 	bne GETVFOBAND2
 	jsr WAIT
-    lda (recvbuffer),y ; load in ONLY 1st byte from receive buffer
-    sta radiobyte
+    	lda (recvbuffer),y ; load in ONLY 1st byte from receive buffer
+    	sta radiobyte
 	ldx $042E
 	cpx #$42
 	beq GETVFOBANDb
@@ -881,16 +880,16 @@ GETVFOBANDb:
 	jmp GETVFOBANDSEARCH
 
 GETVFOBANDSEARCH:
-    ldy VFOBANDS,x
-    inx
+    	ldy VFOBANDS,x
+    	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
 	beq GETVFOBAND     ; try the module over again
-    cpy $FC
-    bne GETVFOBANDSEARCH
+    	cpy $FC
+    	bne GETVFOBANDSEARCH
 	stx $FB            ; X must be preserved during the JSR
 	jsr UPDATEJUMPTABLEVFO ; update memjumplow and memjumphigh for the band given the VF0
 	ldx $FB            ; Restore X from before
-    ldy #$00
+    	ldy #$00
 
 VFOBANDPRINT:
 	lda VFOBANDS,x
@@ -940,7 +939,7 @@ EZREADPREPARE:
 	ldy #$00      ; reinitialize buffer after send, we can find a better place
 	sty recvhead
 	sty recvtail
-    ldy #$00
+    	ldy #$00
 	rts   
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -962,7 +961,7 @@ EZREAD:
 	jsr TESTACIA					
 	jsr WAIT
 	ldy #$01
-    lda (recvbuffer),y ; load in 2nd byte from receive buffer
+    	lda (recvbuffer),y ; load in 2nd byte from receive buffer
 	sta radiobyte,y
 	dey
 	lda (recvbuffer),y ; load in 1st byte from receive buffer
@@ -1000,18 +999,18 @@ GET79:
 	ldy #$79
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte
+    	sta radiobyte
 	and #%00000011    ; GET tx power all bands
 	sta $FC
 	ldx #$00
 	
 CONFIGPOWERSEARCH:
-    ldy CFGPOWER,x
-    inx
+    	ldy CFGPOWER,x
+    	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
 	beq GET79                 ; try the module over again
-    cpy $FC
-    bne CONFIGPOWERSEARCH
+    	cpy $FC
+    	bne CONFIGPOWERSEARCH
 	ldy #$00	
 	
 CONFIGPOWERPRINT:
@@ -1048,10 +1047,10 @@ GETSCANMODE:
 	ldx #$00
 
 GETSCANSEARCH:	
-    ldy SCANMODELABEL,x
-    inx
-    cpy $FC
-    bne GETSCANSEARCH
+    	ldy SCANMODELABEL,x
+    	inx
+    	cpy $FC
+    	bne GETSCANSEARCH
 	ldy #$00		
 
 SCANMODEPRINT:
@@ -1073,7 +1072,7 @@ GET57:
 	ldy #$57
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte		
+    	sta radiobyte		
 	
 GETAGC:
 	and #%00000011
@@ -1081,12 +1080,12 @@ GETAGC:
 	ldx #$00
 	
 AGCLABELSEARCH:
-    ldy AGCLABEL,x
-    inx
+    	ldy AGCLABEL,x
+    	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
 	beq GET57                 ; try the module over again
-    cpy $FC
-    bne AGCLABELSEARCH
+    	cpy $FC
+    	bne AGCLABELSEARCH
 	ldy #$00
 	
 AGCLABELPRINT:
@@ -1151,7 +1150,7 @@ GET58:
 	ldy #$58
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte	
+    	sta radiobyte	
 	
 GETKYR:
 	and #%00010000    ; GET tx power all bands
@@ -1220,12 +1219,12 @@ GETCWPADDLE:
 	ldx #$00
 
 GETCWPADDLESEARCH:
-    ldy CWPADDLELABEL,x
-    inx
+    	ldy CWPADDLELABEL,x
+    	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
 	beq GET58                 ; try the module over again
-    cpy $FC
-    bne GETCWPADDLESEARCH
+    	cpy $FC
+    	bne GETCWPADDLESEARCH
 	ldy #$00
 
 GETCWPADDLEPRINT:
@@ -1247,7 +1246,7 @@ GET5D:
 	ldy #$5D
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte
+    	sta radiobyte
 
 GETIDCW:
 	and #%00010000    ; GET tx power all bands
@@ -1278,7 +1277,7 @@ GET5F:
 	ldy #$5F
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte
+    	sta radiobyte
 
 GETRFSQL:
 	and #%10000000    ; GET tx power all bands
@@ -1286,10 +1285,10 @@ GETRFSQL:
 	ldx #$00
 
 GETRFSQLSEARCH:
-    ldy RFSQLLABEL,x
-    inx
-    cpy $FC
-    bne GETRFSQLSEARCH
+    	ldy RFSQLLABEL,x
+    	inx
+    	cpy $FC
+    	bne GETRFSQLSEARCH
 	ldy #$00
 
 GETRFSQLPRINT:
@@ -1311,7 +1310,7 @@ GET7A:
 	ldy #$7A
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte
+    	sta radiobyte
 
 GETSPLIT:
 	lda radiobyte
@@ -1346,7 +1345,7 @@ GET7B:
 	ldy #$7B
 	sty tempjumplow
 	jsr EZREAD
-    sta radiobyte
+    	sta radiobyte
 
 GETCHARGER:
 	and #%00010000    ; GET tx power all bands
@@ -1392,7 +1391,7 @@ RESPONDTOINPUT:
 	cmp #$85        ; F1
 	beq CHANGEFREQUENCYJUMP
 	cmp #$89        ; F2
-    beq AEQUALSBJUMP
+    	beq AEQUALSBJUMP
 	cmp #$86        ; F3
 	beq TOGGLEMODEJUMP
 	cmp #$8A        ; F4
@@ -1531,12 +1530,12 @@ FORCEUPDATE:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	
 ONOFFSEARCH:	
-    ldy ONOFFLABEL,x
-    inx
+    	ldy ONOFFLABEL,x
+    	inx
 	cpx #$FF                  ; if X hits this the receive data was garbage
 	beq FORCEUPDATE     ; try the module over again
-    cpy $FC
-    bne ONOFFSEARCH
+    	cpy $FC
+    	bne ONOFFSEARCH
 	ldy #$00	
 	rts
 	
@@ -1552,8 +1551,8 @@ CLEARBUFFER:
 	lda #$00      ; reinitialize buffer after send, we can find a better place
 	sta recvhead
 	sta recvtail
-    ldy #$00
-    rts
+    	ldy #$00
+    	rts
 
 
 
@@ -1576,7 +1575,7 @@ PAUSE:
 	cpy #$14      ; was AA    good at 19
 	bne PAUSE
 	ldx #$00
-    ldy #$00
+    	ldy #$00
 	rts
 
 
@@ -1668,7 +1667,7 @@ PUSHWFM:                  ; if current mode is WFM push to FM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 SETCURSORTOSTATUSLINE:
-    ldx #$17
+    	ldx #$17
 	ldy #$02                 ; Y coordunate for cursor
 	clc                      ; carry
 	jsr $FFF0                ; move cursor  
@@ -1800,7 +1799,7 @@ FREQINPUTWAIT2:
 FREQRETURN:
 	cpx #$04
 	bne FREQINPUTWAIT
-    ldx #$00
+    	ldx #$00
 
 
 
@@ -2166,10 +2165,10 @@ isblank:
 	
 notblank:
 	cmp #$0A                ; less than 0A its a number
-    bcc isnumber
-    clc
-    adc #$37                ; adc for PETSCII letter
-    jmp idcontinue
+    	bcc isnumber
+    	clc
+    	adc #$37                ; adc for PETSCII letter
+    	jmp idcontinue
 	   
 isnumber:    
 	clc
@@ -2232,7 +2231,7 @@ ABWAITINPUT:
 	beq ABABORT
 	cmp #$59            ;Y
 	beq ABPREPARE
-    jmp ABWAITINPUT
+    	jmp ABWAITINPUT
 
 ABPREPARE:
 	jsr CLEARSTATUSLINE
@@ -2264,12 +2263,12 @@ ABSTARTACTION:
 	ldx #$00
 
 ABBANDSEARCH:             
-    ldy VFOBANDS,x
-    inx
-    cpy $FC    
-    bne ABBANDSEARCH
+    	ldy VFOBANDS,x
+    	inx
+    	cpy $FC    
+    	bne ABBANDSEARCH
 	jsr UPDATEJUMPTABLEVFO ; update memjumplow and memjumphigh for the band given the VF0
-    ldy #$00
+    	ldy #$00
 
 ADUMP:    
 	jsr SETCURSORTOSTATUSLINE
@@ -2317,8 +2316,8 @@ DUMPCOPYLOOP:	; memjumplow/memjumphigh is the starting address 26 bytes 2b 2c
 	jsr TESTACIA
 	ldy #$BB
 	jsr TESTACIA
-    jsr WAIT
-    jsr WAIT
+    	jsr WAIT
+    	jsr WAIT
 	jsr WAIT
 	clc
 	lda memjumplow
