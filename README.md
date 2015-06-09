@@ -1,5 +1,5 @@
 # Commodore-817
-This is the collection of assembly code for the Commodore 817 - FT817 RS232 interface for the commodore 64
+This is the complete collection of assembly code for the Commodore 817 - FT817 RS232 interface for the commodore 64
 
 The code is designed to be compiled with 64Tass compiler or one of that style.  
 Note that the initial file commodore-817.prg is written in such a way that the resulting prg will
