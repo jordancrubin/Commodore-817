@@ -7,6 +7,8 @@ record data between 0C00 through the areas starting at C000.  This will result i
 that can easily be crunched. Exomizer was used during the development of this program.
 
 ./exomizer -s0xC000 -o ~/output/commodore-817.prg commodore-817.prg
+the resulting output should be no larger than 4 blocks in size
+
 
 With the exception of commodore-817.prg, the resulting output prg files must all be capitalized. before or after moving to a disk image.
 
