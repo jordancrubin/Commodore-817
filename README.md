@@ -20,5 +20,7 @@ TCALCHK.PRG
 
 as such, only commodore-817.prg will be readable on a disk directory with load"$",8
 
+The code also assumes that the serial interface is set at address DE00, with the radio set for CATBAUD at 9600
+
 
 Note that this CAT protocol will work with the FT817 and FT817NR style CAT and not FT450 or 950 models.
