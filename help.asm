@@ -56,7 +56,7 @@ LOADSTARTUPCHK:
 	lda #mainfname_end-mainfname
 	ldx #<mainfname
 	ldy #>mainfname
-	jmp $0C00           ;LAUNCH LOADER FOR startupchk.prg
+	jmp $0C00           ;LAUNCH LOADER FOR STARTUPCHK.prg
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
