@@ -13,7 +13,6 @@ the resulting output should be no larger than 4 blocks in size
 With the exception of commodore-817.prg, the resulting output prg files must all be capitalized. before or after moving to a disk image.
 
 commodore-817.prg
-
 MAIN.prg                                          
 HELP.prg                                          
 STARTUPCHK.PRG                                    
